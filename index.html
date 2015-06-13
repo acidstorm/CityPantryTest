@@ -1,9 +1,102 @@
 <html>
     <head>
+    <style>
+        body { 
+            font-family:HelveticaNeue,Helvetica, sans-serif;
+        }
+    .app__title {
+        font-size:1.3em;
+        text-align: center;
+        color: #4f4f4f;
+    }
+        .package__wrapper {
+            min-height: 100px;
+            padding: 0.5em 0;
+            width: 100%; overflow:hidden; background-size:cover;
+            border: solid 1px #f0f0f0;
+        }
+        .package__wrapper:after {
+            content: "";
+            height: 100%;
+            vertical-align:middle;
+        }
+        .package__image {
+            height: 100px;
+            margin: 0 0.5em;
+            vertical-align: middle;
+            float:left;
+            width: 120px;
+            display:inline-block;
+            text-align:center;
+            background-size:cover;
+        }
+        .package__intro {
+            width:80%;
+            float:left;
+        }
+        .package__text {
+            margin: 0.2em;
+        }
+        .package__text--title {
+           font-size: 1.1em;
+           text-decoration:underline;
+           cursor:pointer;
+        }
+         .package__text--desc {
+           font-size: 0.85em;
+        }
+        .package__details{
+            font-size: 0.75em;
+            margin-bottom:0;
+        }
+        .package__details--item {
+            display:inline-block;
+            padding:0 1em;
+        }
+        .package__details--item:first-child {
+            padding-left:0;
+        }
+        .app__message {  
+            font-size: 0.9em;
+            font-weight:bold;
+            padding: 1em;
+            text-align:center;
+        }
+        .app__message--error {
+            color: #d44;
+            background-color: #fcc;
+        }
+        .app__message--info{
+            color: #888;
+            margin-top: 0;
+            padding:0;
+        }
+    </style>
     </head>
-    <body ng-app="jsCodingTest">
+    <body class="ng-cloak" ng-app="jsCodingTest">
+        <h4 class="app__title">Give the Government a Burrito</h4>
         <main ng-controller="GiveTheGovernmentABurrito">
-            Write your HTML here.
+            <p class="app__message app__message--error" ng-show="showErrorMessage">{{errorMessage}}</p>
+            <p class="app__message app__message--info"  ng-show="packages.length == 0 && !isFetchingData">No results found for {{name}}</p>
+            <p class="app__message app__message--info" ng-show="packages.length > 0">{{packages.length}} result{{packages.length == 1 ? "" : "s"}} found for {{name}}</p>
+            <div style="" ng-repeat="(key, package) in packages">
+                <div class="package__wrapper">
+                    <div style="background: transparent url({{package.images[0].thumbnail}}) center center no-repeat; background-size:cover;" class="package__image">
+                    </div>
+                    <div class="package__intro">
+                    <p class="package__text package__text--title">
+                        {{package.name}}
+                    </p>
+                        <p class="package__text package__text--desc">
+                            {{package.description}}
+                        </p>
+                        <p class="package__details">
+                        <span class="package__details--item">Availabilty: {{package.minPeople}} - {{package.maxPeople}} people</span> | <span class="package__details--item">Deliveries from {{package.deliveryTimeStart}} to {{package.deliveryTimeEnd}} hrs</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
         </main>
 
         <script src="lib/angular.min.js"></script>
